@@ -1,0 +1,18 @@
+query GetRepos($searchQuery: String!) {
+  search(
+    query: $searchQuery
+    type: REPOSITORY
+    first: 10
+    orderBy: { field: STAR_COUNT, direction: DESC }
+  ) {
+    edges {
+      node {
+        ... on Repository {
+          nameWithOwner
+          description
+          stargazerCount
+        }
+      }
+    }
+  }
+}

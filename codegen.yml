@@ -1,0 +1,14 @@
+overwrite: true
+schema: "https://docs.github.com/public/schema.docs.graphql"
+generates:
+  src/generated/index.ts:
+    documents:
+      - "src/**/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-query"
+    config:
+      fetcher:
+        func: "../utils/graphql-fetcher#fetchData"
+        isReactHook: false
