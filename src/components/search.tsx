@@ -47,17 +47,21 @@ const Search = () => {
         {reposQuery.isFetching ? (
           <span className="col-span-3 text-center mt-4">Loading...</span>
         ) : (
-          reposQuery.data?.search.edges?.map((e) => {
-            const repo = e?.node as Repository;
-            return (
-              <RepositoryCard
-                key={repo.nameWithOwner}
-                name={repo.nameWithOwner}
-                description={repo.description || ""}
-                stars={String(repo.stargazerCount)}
-              />
-            );
-          })
+          reposQuery.data?.search.edges
+            ?.sort(
+              (a, b) =>
+                (b?.node as Repository).stargazerCount -
+                (a?.node as Repository).stargazerCount
+            )
+            .map((e) => {
+              const repo = e?.node as Repository;
+              return (
+                <RepositoryCard
+                  key={`${repo.name}-${repo.owner.login}`}
+                  repo={repo}
+                />
+              );
+            })
         )}
       </div>
     </>

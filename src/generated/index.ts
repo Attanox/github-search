@@ -29116,7 +29116,7 @@ export type GetReposQueryVariables = Exact<{
 }>;
 
 
-export type GetReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', nameWithOwner: string, description?: string | null, stargazerCount: number } | { __typename?: 'User' } | null } | null> | null } };
+export type GetReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string } | null, owner: { __typename?: 'Organization', login: string, url: any } | { __typename?: 'User', login: string, url: any } } | { __typename?: 'User' } | null } | null> | null } };
 
 
 export const GetReposDocument = `
@@ -29125,9 +29125,17 @@ export const GetReposDocument = `
     edges {
       node {
         ... on Repository {
-          nameWithOwner
+          name
           description
           stargazerCount
+          url
+          primaryLanguage {
+            name
+          }
+          owner {
+            login
+            url
+          }
         }
       }
     }

@@ -1,15 +1,26 @@
-const RepositoryCard = ({
-  name,
-  stars,
-  description,
-}: {
-  name: string;
-  stars: string;
-  description: string;
-}) => {
+import { Repository } from "@/generated";
+
+const RepositoryCard = ({ repo }: { repo: Repository }) => {
+  const {
+    name,
+    url,
+    owner: { login, url: ownerUrl },
+    description,
+    stargazerCount,
+    primaryLanguage,
+  } = repo;
+
   return (
     <div className="bg-white flex flex-col shadow-md rounded-md mt-4 w-full h-full p-4">
-      <h3 className="text-xl text-slate-950 font-semibold mb-2">{name}</h3>
+      <h3 className="text-xl text-slate-950 font-semibold mb-2">
+        <a href={`${url}`} target="_blank">
+          {name}
+        </a>{" "}
+        /{" "}
+        <a href={`${ownerUrl}`} target="_blank">
+          {login}
+        </a>
+      </h3>
       <div className="flex items-center mt-auto mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +34,12 @@ const RepositoryCard = ({
             clipRule="evenodd"
           />
         </svg>
-        <span className="text-slate-800 text-md">{stars}</span>
+        <span className="text-slate-800 text-md">{stargazerCount}</span>
       </div>
       <p className="text-gray-500 text-sm">{description}</p>
+      <span className="text-slate-800 text-md">
+        Written in: <b>{primaryLanguage?.name || ""}</b>
+      </span>
     </div>
   );
 };
