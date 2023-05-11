@@ -1,13 +1,11 @@
-"use client";
-
 import { Repository, useGetReposQuery } from "@/generated";
-import React, { FormEvent, useRef } from "react";
+import React, { FormEvent, useState } from "react";
 import RepositoryCard from "./card";
 
 const Search = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const reposQuery = useGetReposQuery({
-    searchQuery: inputRef.current?.value || "",
+    searchQuery,
   });
 
   const onSubmit = (e: FormEvent) => {
@@ -26,6 +24,7 @@ const Search = () => {
               type="text"
               name="search_value"
               placeholder="Search repositories..."
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button
               className="flex-shrink-0 bg-purple-500 hover:bg-purple-700 border-purple-500 hover:border-purple-700 text-sm border-4 text-white py-1 px-2 rounded"
@@ -39,7 +38,7 @@ const Search = () => {
 
       <div className=" grid items-center grid-cols-3 gap-4">
         {reposQuery.isFetching ? (
-          <span>Loading...</span>
+          <span className="col-span-3 text-center mt-4">Loading...</span>
         ) : (
           reposQuery.data?.search.edges?.map((e) => {
             const repo = e?.node as Repository;
